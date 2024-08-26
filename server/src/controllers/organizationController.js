@@ -15,8 +15,8 @@ exports.getAllOrganizations = async (req, res) => {
 
 exports.createOrganization = async (req, res) => {
   try {
-    const { name, status, desc, order, parentId } = req.body;
-    const organization = new Organization({ name, status, desc, order, parentId });
+    const { name, status, desc, order, children } = req.body;
+    const organization = new Organization({ name, status, desc, order, children });
     await organization.save();
     res.status(201).json({
       status: 0,
