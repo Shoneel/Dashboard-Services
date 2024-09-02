@@ -1,13 +1,13 @@
 const { faker } = require('@faker-js/faker');
 
 const BasicStatus = {
-  ENABLE: 'enable',
-  DISABLE: 'disable'
+  ENABLE: '1',
+  DISABLE: '0'
 };
 
 const PermissionType = {
-  CATALOGUE: 'catalogue',
-  MENU: 'menu',
+  CATALOGUE: '0',
+  MENU: '1',
   BUTTON: 'button'
 };
 

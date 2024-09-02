@@ -12,7 +12,6 @@ import 'virtual:svg-icons-register';
 
 import App from '@/App';
 
-import worker from './_mock';
 // i18n
 import './locales/i18n';
 // tailwind css
@@ -27,7 +26,6 @@ const charAt = `
 ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝
   `;
 console.info(`%c${charAt}`, 'color: #5BE49B');
-
 
 // 创建一个 client
 const queryClient = new QueryClient({
@@ -58,4 +56,4 @@ root.render(
 );
 
 // 🥵 start service worker mock in development mode
-worker.start({ onUnhandledRequest: 'bypass' });
+// worker.start({ onUnhandledRequest: 'bypass' });

@@ -12,19 +12,23 @@ exports.signin = async (req, res) => {
   try {
     console.log(`Signin attempt for user: ${username}`);
 
-    const user = await User.findOne({ username }).populate('role');
+    const user = await User.findOne({ username })
+      .populate({
+        path: 'role',
+        populate: {
+          path: 'permissions', // Ensure permissions within the role are populated
+        },
+      });
+
     if (!user) {
       console.log(`User not found: ${username}`);
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Invalid username or password' }); // Do not specify which field is incorrect for security
     }
 
-    console.log(`Stored password hash for ${username}: ${user.password}`);
-
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    console.log(`Password validation result for ${username}: ${isPasswordValid}`);
     if (!isPasswordValid) {
       console.log(`Invalid password for user: ${username}`);
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Invalid username or password' });
     }
 
     const { accessToken, refreshToken } = authService.generateTokens(user._id);
@@ -40,7 +44,7 @@ exports.signin = async (req, res) => {
           email: user.email,
           avatar: user.avatar,
           role: user.role,
-          permissions: user.role.permissions,
+          permissions: user.role.permissions, // Ensure permissions are returned correctly
         },
         accessToken,
         refreshToken,

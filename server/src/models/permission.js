@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const { PermissionType, BasicStatus } = require('../scripts/mockData');  // Ensure these are correctly defined and imported
+const { PermissionType, BasicStatus } = require('../scripts/mockData'); // Ensure these are correctly defined and imported
 
 const PermissionSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
-  },
+  // id: {
+  //   type: String,
+  //   required: true,
+  // },
   parentId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Permission', // Referencing self
     default: null,
   },
   name: {
@@ -29,8 +30,8 @@ const PermissionSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['enable', 'disable'],
-    default: 'enable'
+    enum: Object.values(BasicStatus),
+    default: 'enable',
   },
   order: {
     type: Number,
@@ -56,7 +57,16 @@ const PermissionSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Permission' }],
+  children: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Permission', // Referencing self
+  }],
 }, { timestamps: true });
+
+// Middleware to automatically populate children
+PermissionSchema.pre(/^find/, function(next) {
+  this.populate('children');
+  next();
+});
 
 module.exports = mongoose.model('Permission', PermissionSchema);

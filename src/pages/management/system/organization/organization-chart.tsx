@@ -31,7 +31,7 @@ export default function OrganizationChart({ organizations = [] }: Props) {
           $backgroundColor={Color(themeToken.colorPrimary).alpha(0.08).toString()}
           $borderColor={Color(themeToken.colorPrimaryBorder).alpha(0.24).toString()}
         >
-          Root - Company
+          Root
         </StyledNode>
       }
     >

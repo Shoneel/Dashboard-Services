@@ -9,31 +9,32 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   base: './',
   esbuild: {
+    // Drop 'console' and 'debugger' statements
     // drop: ['console', 'debugger'],
   },
   css: {
-    // 开css sourcemap方便找css
+    // Enable CSS sourcemaps for easier debugging
     devSourcemap: true,
   },
   plugins: [
     react(),
-    // 同步tsconfig.json的path设置alias
+    // Sync alias settings with tsconfig.json paths
     tsconfigPaths(),
     createSvgIconsPlugin({
-      // 指定需要缓存的图标文件夹
+      // Specify the icon folder to cache
       iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
-      // 指定symbolId格式
+      // Define the format for the symbolId
       symbolId: 'icon-[dir]-[name]',
     }),
   ],
   server: {
-    // 自动打开浏览器
+    // Automatically open the browser
     open: true,
     host: true,
-    port: 3001,
+    port: 3001, // Running your Vite dev server on port 3001
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:5000', // Proxy API requests to backend server on port 5000
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
@@ -44,7 +45,7 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       compress: {
-        // 生产环境移除console
+        // Remove 'console' and 'debugger' statements in production
         drop_console: true,
         drop_debugger: true,
       },

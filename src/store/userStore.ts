@@ -44,11 +44,17 @@ const useUserStore = create<UserStore>((set) => ({
 
 export const useUserInfo = () => useUserStore((state) => state.userInfo);
 export const useUserToken = () => useUserStore((state) => state.userToken);
-export const useUserPermission = () => useUserStore((state) => state.userInfo.permissions);
+// export const useUserPermission = () => useUserStore((state) => state.userInfo.permissions);
+// export const useUserPermission = () => {
+//   const { userInfo } = useUserStore();
+//   return userInfo?.permissions || [];
+// };
+export const useUserPermission = () => useUserStore((state) => state.userInfo?.permissions || []);
+
 export const useUserActions = () => useUserStore((state) => state.actions);
 
 export const useSignIn = () => {
-  const navigatge = useNavigate();
+  const navigate = useNavigate();
   const { message } = App.useApp();
   const { setUserToken, setUserInfo } = useUserActions();
 
@@ -59,18 +65,26 @@ export const useSignIn = () => {
   const signIn = async (data: SignInReq) => {
     try {
       const res = await signInMutation.mutateAsync(data);
+      console.log('SignIn Response:', res); // Log the full response
       const { user, accessToken, refreshToken } = res;
+
+      console.log('User:', user);
+      console.log('AccessToken:', accessToken);
+      console.log('RefreshToken:', refreshToken);
+
+      console.log('HOMEPAGE:', HOMEPAGE);
+
       setUserToken({ accessToken, refreshToken });
       setUserInfo(user);
-      navigatge(HOMEPAGE, { replace: true });
+      navigate(HOMEPAGE, { replace: true });
     } catch (err) {
+      console.error('SignIn Error:', err);
       message.warning({
         content: err.message,
         duration: 3,
       });
     }
   };
-
   return signIn;
 };
 

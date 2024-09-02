@@ -7,39 +7,42 @@ import userStore from '@/store/userStore';
 import { Result } from '#/api';
 import { ResultEnum } from '#/enum';
 
-// 创建 axios 实例
+// Create axios instance
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: 50000,
   headers: { 'Content-Type': 'application/json;charset=utf-8' },
 });
 
-// 请求拦截
+// Request Interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    // 在请求被发送之前做些什么
-    config.headers.Authorization = 'Bearer Token';
+    // Inject the Authorization token from the user store
+    const token = userStore.getState().userToken.accessToken;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
-    // 请求错误时做些什么
+    // Handle request errors
     return Promise.reject(error);
   },
 );
 
-// 响应拦截
+// Response Interceptor
 axiosInstance.interceptors.response.use(
   (res: AxiosResponse<Result>) => {
     if (!res.data) throw new Error(t('sys.api.apiRequestFailed'));
 
     const { status, data, message } = res.data;
-    // 业务请求成功
-    const hasSuccess = data && Reflect.has(res.data, 'status') && status === ResultEnum.SUCCESS;
-    if (hasSuccess) {
-      return data;
+
+    // If status is SUCCESS, return the data
+    if (status === ResultEnum.SUCCESS) {
+      return res.data;
     }
 
-    // 业务请求错误
+    // Handle business errors
     throw new Error(message || t('sys.api.apiRequestFailed'));
   },
   (error: AxiosError<Result>) => {
@@ -78,7 +81,7 @@ class APIClient {
       axiosInstance
         .request<any, AxiosResponse<Result>>(config)
         .then((res: AxiosResponse<Result>) => {
-          resolve(res as unknown as Promise<T>);
+          resolve(res.data as T); // Resolve with the correct data type
         })
         .catch((e: Error | AxiosError) => {
           reject(e);

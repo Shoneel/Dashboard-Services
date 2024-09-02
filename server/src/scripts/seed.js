@@ -5,12 +5,7 @@ const Role = require('../models/role');
 const Permission = require('../models/permission');
 const Organization = require('../models/organization');
 const { connectDB } = require('../config/database');
-const {
-  ORG_LIST,
-  PERMISSION_LIST,
-  ROLE_LIST,
-  USER_LIST
-} = require('./mockData');
+const { ORG_LIST, PERMISSION_LIST, ROLE_LIST, USER_LIST } = require('./mockData');
 
 async function seedDatabase() {
   try {
@@ -44,7 +39,7 @@ async function clearDatabase() {
     User.deleteMany({}),
     Role.deleteMany({}),
     Permission.deleteMany({}),
-    Organization.deleteMany({})
+    Organization.deleteMany({}),
   ]);
 }
 
@@ -104,8 +99,25 @@ async function createPermissionWithChildren(permission, parentId = null, permiss
 
 async function seedRoles(permissionIds) {
   const roleIds = {};
+
   for (const role of ROLE_LIST) {
     try {
+      // Map permissions using correct ObjectId from permissionIds
+      const rolePermissions = role.permission.map(permission => {
+        const mappedId = permissionIds[permission.id]; // Correctly map based on `id` of permission
+        if (!mappedId) {
+          console.error(`Permission ID ${permission.id} not found in permissionIds map.`);
+        }
+        return mappedId;
+      });
+
+      // Filter out any undefined/null permissions
+      const validPermissions = rolePermissions.filter(id => id !== undefined && id !== null);
+
+      // Log for debugging purposes
+      // console.log(`Creating role: ${role.name}, Permissions:`, validPermissions);
+
+      // Create the role with mapped permission IDs
       const createdRole = await Role.create({
         id: role.id,
         name: role.name,
@@ -113,13 +125,16 @@ async function seedRoles(permissionIds) {
         status: role.status,
         order: role.order,
         desc: role.desc,
-        permission: role.permission.map(p => permissionIds[p.id]),
+        permissions: validPermissions, // Assign only valid permissions
       });
+
+      // Store created role ID for reference
       roleIds[role.id] = createdRole._id;
     } catch (err) {
-      console.error('Error creating role:', role, err);
+      console.error(`Error creating role ${role.name}:`, err);
     }
   }
+
   return roleIds;
 }
 
@@ -139,7 +154,7 @@ async function seedUsers(roleIds) {
 }
 
 async function seedOrganizations() {
-  const orgMap = {};  // A map to store organizations by their custom `id` for easier reference
+  const orgMap = {}; // A map to store organizations by their custom `id` for easier reference
   for (const org of ORG_LIST) {
     try {
       await seedOrganization(org, null, orgMap);
