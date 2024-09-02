@@ -19,6 +19,7 @@ module.exports = {
         map: [
           ['@', './src'],
           ['#', './types'],
+          ['msw', './node_modules/msw']
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
       },

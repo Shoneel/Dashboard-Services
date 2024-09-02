@@ -7,19 +7,77 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Environment variables
+.env*
+*.local
+.env.*.local
+
+# Node modules and build directories
 node_modules
 dist
 dist-ssr
-*.local
+
+# OS-generated files
+.DS_Store
+Thumbs.db
 
 # Editor directories and files
-.idea
-.DS_Store
+.vscode/
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*~
 
-# vite 打包分析产物
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Parcel-bundler cache (includes source maps)
+.cache/
+
+# Debug and error reporting
+error.log
+
+# Docker files
+docker-compose.override.yaml
+docker-compose.yaml.override
+.dockerignore
+
+# MacOS
+.DS_Store
+
+# SASS
+.sass-cache/
+
+# Generated files
+*.bundle.js
+*.bundle.map
+*.min.js
+*.min.map
+
+# Lint and Formatting
+.eslintcache
+
+# React Native
+.expo/
+.expo-shared/
+*.keystore
+web-build/
+
+# Vite build analysis output
 stats.html
+
+# Temporary files
+tmp/
+temp/
+
+# TypeScript
+*.tsbuildinfo
+
+# Package manager files
+*.tgz
+
+# Others
+**/public/mockServiceWorker.js
