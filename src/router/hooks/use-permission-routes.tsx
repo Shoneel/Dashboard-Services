@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import { isEmpty } from 'ramda';
 import { Suspense, lazy, useMemo } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
@@ -126,6 +128,7 @@ function transformPermissionToMenuRoutes(
           </Suspense>
         );
       }
+      // console.log('Child Route:', appRoute);
     }
 
     return appRoute;
@@ -141,9 +144,9 @@ function transformPermissionToMenuRoutes(
  */
 function getCompleteRoute(permission: Permission, flattenedPermissions: Permission[], route = '') {
   const currentRoute = route ? `/${permission.route}${route}` : `/${permission.route}`;
-
+  // eslint-disable-next-line no-underscore-dangle
   if (permission.parentId) {
-    const parentPermission = flattenedPermissions.find((p) => p.id === permission.parentId)!;
+    const parentPermission = flattenedPermissions.find((p) => p._id === permission.parentId)!;
     return getCompleteRoute(parentPermission, flattenedPermissions, currentRoute);
   }
 

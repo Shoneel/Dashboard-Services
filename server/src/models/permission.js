@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const { PermissionType, BasicStatus } = require('../scripts/mockData'); // Ensure these are correctly defined and imported
+const { PermissionType, BasicStatus } = require('../scripts/mockData');
 
 const PermissionSchema = new Schema({
   // id: {
@@ -20,7 +20,7 @@ const PermissionSchema = new Schema({
     type: String,
   },
   type: {
-    type: String,
+    type: Number,
     enum: Object.values(PermissionType),
     required: true,
   },
@@ -29,9 +29,9 @@ const PermissionSchema = new Schema({
     required: true,
   },
   status: {
-    type: String,
+    type: Number,
     enum: Object.values(BasicStatus),
-    default: 'enable',
+    default: 1,
   },
   order: {
     type: Number,

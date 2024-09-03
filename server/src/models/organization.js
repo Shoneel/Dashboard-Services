@@ -16,9 +16,9 @@ const OrganizationSchema = new Schema({
     required: true,
   },
   status: {
-    type: String,
+    type: Number,
     enum: Object.values(BasicStatus),
-    default: 'enable',
+    default: 1
   },
   desc: {
     type: String,

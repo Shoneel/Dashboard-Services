@@ -1,68 +1,42 @@
 const { faker } = require('@faker-js/faker');
 
 const BasicStatus = {
-  ENABLE: '1',
-  DISABLE: '0'
+  ENABLE: 1,
+  DISABLE: 0
 };
 
 const PermissionType = {
-  CATALOGUE: '0',
-  MENU: '1',
+  CATALOGUE: 0,
+  MENU: 1,
   BUTTON: 'button'
 };
 
-// const ORG_LIST = [
-//   {
-//     id: '1',
-//     name: 'East China Branch',
-//     status: 'enable',
-//     desc: faker.lorem.words(),
-//     order: 1,
-//     children: [
-//       { id: '1-1', name: 'R&D Department', status: 'disable', desc: '', order: 1 },
-//       { id: '1-2', name: 'Marketing Department', status: 'enable', desc: '', order: 2 },
-//       { id: '1-3', name: 'Finance Department', status: 'enable', desc: '', order: 3 },
-//     ],
-//   },
-//   {
-//     id: '2',
-//     name: 'South China Branch',
-//     status: 'enable',
-//     desc: faker.lorem.words(),
-//     order: 2,
-//     children: [
-//       { id: '2-1', name: 'R&D Department', status: 'disable', desc: '', order: 1 },
-//       { id: '2-2', name: 'Marketing Department', status: 'enable', desc: '', order: 2 },
-//       { id: '2-3', name: 'Finance Department', status: 'enable', desc: '', order: 3 },
-//     ],
-//   }
-// ];
 const ORG_LIST = [
   {
     id: '1',
     name: 'East China Branch',
-    status: 'enable',
+    status: BasicStatus.ENABLE,
     desc: 'paens aptus comitatus',
     order: 1,
     children: [
       {
         id: '1-1',
         name: 'R&D Department',
-        status: 'disable',
+        status: BasicStatus.DISABLE,
         desc: '',
         order: 1
       },
       {
         id: '1-2',
         name: 'Marketing Department',
-        status: 'enable',
+        status: BasicStatus.ENABLE,
         desc: '',
         order: 2
       },
       {
         id: '1-3',
         name: 'Finance Department',
-        status: 'enable',
+        status: BasicStatus.ENABLE,
         desc: '',
         order: 3
       }
@@ -71,28 +45,28 @@ const ORG_LIST = [
   {
     id: '2',
     name: 'South China Branch',
-    status: 'enable',
+    status: BasicStatus.ENABLE,
     desc: 'depraedor comparo cilicium',
     order: 2,
     children: [
       {
         id: '2-1',
         name: 'R&D Department',
-        status: 'disable',
+        status: BasicStatus.DISABLE,
         desc: '',
         order: 1
       },
       {
         id: '2-2',
         name: 'Marketing Department',
-        status: 'enable',
+        status: BasicStatus.ENABLE,
         desc: '',
         order: 2
       },
       {
         id: '2-3',
         name: 'Finance Department',
-        status: 'enable',
+        status: BasicStatus.ENABLE,
         desc: '',
         order: 3
       }

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { BasicStatus } = require('../scripts/mockData');
 
 const RoleSchema = new mongoose.Schema({
   name: {
@@ -11,9 +12,9 @@ const RoleSchema = new mongoose.Schema({
     required: true
   },
   status: {
-    type: String,
-    enum: ['enable', 'disable'],
-    default: 'enable'
+    type: Number,
+    enum: Object.values(BasicStatus),
+    default: 1,
   },
   order: Number,
   desc: String,
