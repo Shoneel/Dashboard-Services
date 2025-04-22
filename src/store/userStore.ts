@@ -49,7 +49,7 @@ export const useUserToken = () => useUserStore((state) => state.userToken);
 
 export const useUserPermission = () => {
   const permissions = useUserStore((state) => state.userInfo?.permissions || []);
-  console.log('Permissions Retrieved:', permissions); // Log permissions when accessed
+  // console.log('Permissions Retrieved:', permissions); // Log permissions when accessed
   return permissions;
 };
 
@@ -83,7 +83,7 @@ export const useSignIn = () => {
     } catch (err) {
       console.error('SignIn Error:', err);
       message.warning({
-        content: err.message,
+        content: 'Invalid credentials. Please try again.',
         duration: 3,
       });
     }

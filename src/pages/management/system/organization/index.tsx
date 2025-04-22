@@ -178,7 +178,14 @@ export default function OrganizationPage() {
         />
       </Card>
 
-      <Card title="Organization Chart">
+      <Card
+        title="Organization Chart"
+        bodyStyle={{
+          overflow: 'hidden',
+          padding: 0,
+          minHeight: '40px',
+        }}
+      >
         <OrganizationChart organizations={data} />
       </Card>
 

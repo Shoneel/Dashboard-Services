@@ -97,7 +97,7 @@ const others: AppRouteObject[] = [
         path: 'iframe',
         element: (
           <Wrapper>
-            <Iframe src="https://ant.design/index-cn" />
+            <Iframe src="https://www.google.com/" />
           </Wrapper>
         ),
         meta: {

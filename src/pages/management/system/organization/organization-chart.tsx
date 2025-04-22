@@ -15,32 +15,64 @@ export default function OrganizationChart({ organizations = [] }: Props) {
   const themeToken = useThemeToken();
   const { themeMode } = useSettings();
   return (
-    <Tree
-      lineWidth="1px"
-      lineColor={
-        themeMode === ThemeMode.Light ? themeToken.colorPrimaryBorder : themeToken.colorPrimary
-      }
-      lineBorderRadius="24px"
-      label={
-        <StyledNode
-          $textColor={
-            themeMode === ThemeMode.Light
-              ? themeToken.colorPrimaryTextActive
-              : themeToken.colorPrimaryText
+    <OuterContainer>
+      <ChartContainer>
+        <Tree
+          lineWidth="1px"
+          lineColor={
+            themeMode === ThemeMode.Light ? themeToken.colorPrimaryBorder : themeToken.colorPrimary
           }
-          $backgroundColor={Color(themeToken.colorPrimary).alpha(0.08).toString()}
-          $borderColor={Color(themeToken.colorPrimaryBorder).alpha(0.24).toString()}
+          lineBorderRadius="24px"
+          label={
+            <StyledNode
+              $textColor={
+                themeMode === ThemeMode.Light
+                  ? themeToken.colorPrimaryTextActive
+                  : themeToken.colorPrimaryText
+              }
+              $backgroundColor={Color(themeToken.colorPrimary).alpha(0.08).toString()}
+              $borderColor={Color(themeToken.colorPrimaryBorder).alpha(0.24).toString()}
+            >
+              Root
+            </StyledNode>
+          }
         >
-          Root
-        </StyledNode>
-      }
-    >
-      {organizations.map((org) => (
-        <OrganizationChartTreeNode key={org.id} organization={org} />
-      ))}
-    </Tree>
+          {organizations.map((org) => (
+            <OrganizationChartTreeNode key={org.id} organization={org} />
+          ))}
+        </Tree>
+      </ChartContainer>
+    </OuterContainer>
   );
 }
+
+// Responsive container for the org chart
+const ChartContainer = styled.div`
+  width: 100%;
+  min-width: max-content;
+  display: flex;
+  justify-content: center;
+  padding: 20px 60px; /* Increased horizontal padding */
+
+  /* Ensure the Tree component is properly displayed */
+  > div {
+    min-width: max-content;
+    padding-left: 80px; /* Significant left padding to prevent cutoff */
+    margin: 0 auto;
+  }
+
+  /* Style for react-organizational-chart to provide more left space */
+  .oc-tree {
+    padding-left: 30px;
+  }
+`;
+
+// Outer container to provide horizontal scrolling
+const OuterContainer = styled.div`
+  width: 100%;
+  overflow-x: auto;
+  padding: 0;
+`;
 
 type OrganizationChartTreeNodeProps = {
   organization: Organization;

@@ -18,8 +18,14 @@ function RegisterForm() {
 
   const onFinish = async (values: any) => {
     console.log('Received values of form: ', values);
-    await signUpMutation.mutateAsync(values);
-    backToLogin();
+    try {
+      await signUpMutation.mutateAsync(values);
+      // Redirect to login after successful signup
+      backToLogin();
+    } catch (error) {
+      console.error('Signup failed:', error);
+      // Optionally display an error message to the user
+    }
   };
 
   return (
